@@ -1,0 +1,45 @@
+
+/* App.css */
+
+/* Sidebar folder styles */
+.sidebar-folder {
+  font-size: 0.85rem;
+}
+
+.sidebar-folder .folder-item {
+  padding: 4px 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-folder .folder-item:hover {
+  background-color: #e9ecef;
+  color: #0056b3;
+  border-radius: 4px;
+  box-shadow: inset 3px 0 0 #0d6efd;
+}
+
+.dark-mode .folder-item:hover {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 #0d6efd;
+}
+
+/* Button style in sidebar */
+.sidebar-folder .btn {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.75rem;
+}
+.subfolder-item:hover {
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+.folder-item.selected {
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+}
