@@ -110,6 +110,46 @@ router.get('/convert/avi', (req, res) => {
     .run();
 });
 
+const { execFile } = require('child_process');
+
+router.get('/convert-pdf', (req, res) => {
+  const filePath = decodeURIComponent(req.query.path || '');
+  const ext = path.extname(filePath).toLowerCase();
+
+  if (!['.doc', '.docx', '.xls', '.xlsx'].includes(ext)) {
+    return res.status(400).send('Unsupported file type');
+  }
+
+  const outputPath = filePath.replace(ext, '.pdf');
+  const script = ext === '.xls' || ext === '.xlsx'
+    ? path.resolve(__dirname, '../convert-excel.ps1')
+    : path.resolve(__dirname, '../convert-word.ps1');
+
+  console.log(`Converting: ${filePath} → ${outputPath} using ${script}`);
+
+  execFile('powershell.exe', [
+    '-ExecutionPolicy', 'Bypass',
+    '-File', script,
+    filePath,
+    outputPath
+  ], (error) => {
+    if (error) {
+      console.error('PowerShell conversion failed:', error.message);
+      return res.status(500).send('Conversion failed.');
+    }
+
+    // Confirm file was created
+    fs.access(outputPath, fs.constants.F_OK, (err) => {
+      if (err) {
+        console.error('PDF not found after conversion:', outputPath);
+        return res.status(500).send('PDF not created.');
+      }
+
+      res.sendFile(outputPath);
+    });
+  });
+});
+
 // Helper function for MIME type
 function getMimeType(ext) {
   switch (ext) {
