@@ -1,4 +1,3 @@
-
 /* App.css */
 
 /* Sidebar folder styles */
@@ -42,4 +41,56 @@
   background-color: #007bff;
   color: white;
   border-radius: 4px;
+}
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+.folder-item {
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.folder-item:hover {
+  background-color: #e2e6ea;
+}
+
+.folder-item.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.folder-item.dark-mode {
+  background-color: #343a40;
+  color: white;
+}
+
+.folder-item.dark-mode:hover {
+  background-color: #495057;
+}
+
+.selected .text-uppercase {
+  font-weight: bold;
+}
+
+.custom-breadcrumb {
+  font-size: 0.9rem;
+}
+
+.mark {
+  background-color: yellow;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.subfolder-item {
+  transition: background-color 0.2s ease;
+}
+
+.subfolder-item:hover {
+  background-color: #e9ecef !important;
 }

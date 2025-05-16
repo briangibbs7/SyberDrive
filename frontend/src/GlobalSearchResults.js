@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
-  Container, Row, Col, Table, Form, Button, Card, Modal
+  Container, Row, Col, Table, Form, Button, Modal, Card
 } from 'react-bootstrap';
 
 function GlobalSearchResults({ query, onBack, darkMode }) {
@@ -21,7 +21,7 @@ function GlobalSearchResults({ query, onBack, darkMode }) {
         console.error('Search failed:', err);
       }
     };
-    fetchResults();
+    if (query.length > 2) fetchResults();
   }, [query]);
 
   const sortedResults = [...results].sort((a, b) => {
@@ -126,10 +126,7 @@ function GlobalSearchResults({ query, onBack, darkMode }) {
                 <Col md={4} key={file.path}>
                   <Card className={darkMode ? 'bg-secondary text-white' : ''}>
                     <Card.Body>
-                      <Card.Title
-                        className="text-truncate"
-                        dangerouslySetInnerHTML={{ __html: highlightMatch(file.name) }}
-                      />
+                      <Card.Title className="text-truncate" dangerouslySetInnerHTML={{ __html: highlightMatch(file.name) }} />
                       {isImage(file.name) && (
                         <Card.Img
                           src={`http://sja-files:3001/api/files/download?path=${encodeURIComponent(file.path)}`}
@@ -138,7 +135,7 @@ function GlobalSearchResults({ query, onBack, darkMode }) {
                         />
                       )}
                       <small className="text-muted">Size: {file.size?.toLocaleString()} bytes</small><br />
-                      <small className="text-muted">Date: {file.modified ? new Date(file.modified).toLocaleString() : '-'}</small>
+                      <small className="text-muted">Modified: {file.modified ? new Date(file.modified).toLocaleString() : '-'}</small>
                       <div className="mt-2 d-flex gap-2">
                         <Button size="sm" onClick={() => handleDownload(file.path)}>Download</Button>
                         <Button size="sm" variant="info" onClick={() => handlePreview(file)}>Preview</Button>
@@ -173,7 +170,7 @@ function GlobalSearchResults({ query, onBack, darkMode }) {
           {previewFile?.name?.endsWith('.txt') && (
             <pre style={{ maxHeight: '80vh', overflowY: 'auto' }}>{previewText}</pre>
           )}
-          {!previewFile?.name?.match(/\\.(pdf|txt|jpg|jpeg|png|gif|mp4)$/i) && (
+          {!previewFile?.name?.match(/\.(pdf|txt|jpg|jpeg|png|gif|mp4)$/i) && (
             <div>{previewText}</div>
           )}
         </Modal.Body>
